@@ -17,15 +17,27 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // Member findMember = em.find(Member.class, 1L);
-            // findMember.setName("HelloJpa");
-            // JPQL 사용방법
-            List<Member> resultList = em.createQuery("select m from Member as m", Member.class).
-                    getResultList();
+            System.out.println("================");
+            Member memberA = new Member();
+            memberA.setName("memberA");
+            em.persist(memberA);
+            System.out.println("MemberA : " + memberA.getId());
 
-            for (Member member : resultList) {
-                System.out.println("member.name = " + member.getName());
-            }
+            Member memberB = new Member();
+            memberB.setName("memberB");
+            em.persist(memberB);
+            System.out.println("memberB : " + memberB.getId());
+
+            Member memberC = new Member();
+            memberC.setName("memberC");
+            em.persist(memberC);
+            System.out.println("memberC : " + memberC.getId());
+
+            Member memberD = new Member();
+            memberD.setName("memberD");
+            em.persist(memberD);
+            System.out.println("memberD : " + memberD.getId());
+            System.out.println("================");
 
             tx.commit();
         } catch (Exception e) {
