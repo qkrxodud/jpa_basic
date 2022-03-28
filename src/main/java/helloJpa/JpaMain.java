@@ -17,21 +17,16 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // 저장
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
-
             Member member = new Member();
             member.setName("member1");
-            member.setTeam(team);
-
             em.persist(member);
 
-            Member findMember = em.find(Member.class, member.getId());
-            Team findTeam = findMember.getTeam();
-
-            System.out.println("findTeamName = " + findTeam.getName());
+            Team team = new Team();
+            team.setName("teamA");
+            //외래키가 변경 되어야한다.
+            //외래키는 멤버 테이블에 있다. 결국에 멤버가 업데이트 되야된다.
+            team.getMembers().add(member);
+            em.persist(team);
 
             tx.commit();
         } catch (Exception e) {
