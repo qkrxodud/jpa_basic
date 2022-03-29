@@ -17,17 +17,18 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = new Member();
-            member.setName("member1");
-            em.persist(member);
+            Movie movie = new Movie();
+            movie.setDirector("A");
+            movie.setAuthor("BBB");
+            movie.setName("바람과 함께 사라지다.");
+            movie.setPrice(10000);
+            em.persist(movie);
 
-            Team team = new Team();
-            team.setName("teamA");
-            //외래키가 변경 되어야한다.
-            //외래키는 멤버 테이블에 있다. 결국에 멤버가 업데이트 되야된다.
-            team.getMembers().add(member);
-            em.persist(team);
+            em.flush();
+            em.clear();
 
+            Movie findMovie = em.find(Movie.class, movie.getId());
+            System.out.println("findMovie = " + findMovie);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
