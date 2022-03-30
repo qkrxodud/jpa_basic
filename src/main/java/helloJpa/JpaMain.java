@@ -18,8 +18,21 @@ public class JpaMain {
 
         try {
             Member member = new Member();
-            member.setCreateBy("오늘생성..");
+            member.setName("hello ");
+
             em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            System.out.println("============call getReference START ==========");
+            Member findMember = em.getReference(Member.class, member.getId());
+            System.out.println("============call getReference END ==========");
+            System.out.println("============call findMember.getName() START ==========");
+            System.out.println("findMember.userName = " + findMember.getName());
+            System.out.println("============call findMember.getName() END ==========");
+            System.out.println("findMember.userName = " + findMember.getName());
+
 
             tx.commit();
         } catch (Exception e) {
