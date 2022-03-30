@@ -5,7 +5,7 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 @MappedSuperclass // 속성을 같이 쓰고 싶다고 할때 사용한다. 공통적으로 사용할 속성을 사용 할 때 쓴다.
-public class BaseEntity {
+public abstract class BaseEntity {
 
     @Column(name = "INSERT_MEMBER") //이런식으로 변경도 가능
     private String createBy;
