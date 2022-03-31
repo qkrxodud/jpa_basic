@@ -1,10 +1,11 @@
 package helloJpa;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class JpaMain {
 
@@ -17,26 +18,33 @@ public class JpaMain {
         tx.begin();
 
         try {
+
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
             Member member = new Member();
-            member.setName("hello ");
+            member.setName("member1 ");
+            member.setTeam(team);
+            em.persist(member);
 
             em.persist(member);
 
             em.flush();
             em.clear();
 
-            System.out.println("============call getReference START ==========");
-            Member findMember = em.getReference(Member.class, member.getId());
-            System.out.println("============call getReference END ==========");
-            System.out.println("============call findMember.getName() START ==========");
-            System.out.println("findMember.userName = " + findMember.getName());
-            System.out.println("============call findMember.getName() END ==========");
-            System.out.println("findMember.userName = " + findMember.getName());
+            Member  refMember = em.find(Member.class, member.getId());
+            System.out.println(refMember.getName());
 
+            System.out.println("member = " + refMember.getTeam().getClass());
+            System.out.println("=================");
+            refMember.getTeam().getName();
+            System.out.println("=================");
 
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
+            e.printStackTrace();
         } finally {
             em.close();
         }
