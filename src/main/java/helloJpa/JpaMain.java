@@ -26,8 +26,8 @@ public class JpaMain {
             member1.getFavoriteFoods().add("족발");
             member1.getFavoriteFoods().add("피자");
 
-            member1.getAddressHistory().add(new Address("old1", "street", "zipcode"));
-            member1.getAddressHistory().add(new Address("old2", "street", "zipcode"));
+            member1.getAddressHistory().add(new AddressEntity("old1", "street", "zipcode"));
+            member1.getAddressHistory().add(new AddressEntity("old2", "street", "zipcode"));
 
             em.persist(member1);
 
@@ -37,22 +37,22 @@ public class JpaMain {
             System.out.println("======================================");
 
             //조회
-            Member findMember = em.find(Member.class, member1.getId());
-            List<Address> addressHistory = findMember.getAddressHistory();
-            for (Address address : addressHistory) {
-                System.out.println("address...-==>" + address.getCity());
-            }
-
-            Address address = findMember.getHomeAddress();
-            findMember.setHomeAddress(new Address("newCity", address.getStreet(), address.getZipcode()));
-
-            //Map 수정
-            findMember.getFavoriteFoods().remove("치킨");
-            findMember.getFavoriteFoods().add("한식");
-
-            //List 수정b
-            findMember.getAddressHistory().remove(new Address("old1", "street", "zipcode"));
-            findMember.getAddressHistory().add(new Address("old1", "street", "zipcode"));
+//            Member findMember = em.find(Member.class, member1.getId());
+//            List<AddressEntity> addressHistory = findMember.getAddressHistory();
+//            for (AddressEntity address : addressHistory) {
+//                System.out.println("address...-==>" + address.getAddress().getCity());
+//            }
+//
+//            Address address = findMember.getHomeAddress();
+//            findMember.setHomeAddress(new Address("newCity", address.getStreet(), address.getZipcode()));
+//
+//            //Map 수정
+//            findMember.getFavoriteFoods().remove("치킨");
+//            findMember.getFavoriteFoods().add("한식");
+//
+//            //List 수정b
+//            findMember.getAddressHistory().remove(new AddressEntity("old1", "street", "zipcode"));
+//            findMember.getAddressHistory().add(new AddressEntity("old2", "street", "zipcode"));
 
             tx.commit();
         } catch (Exception e) {
