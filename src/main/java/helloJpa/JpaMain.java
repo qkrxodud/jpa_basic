@@ -18,15 +18,13 @@ public class JpaMain {
         tx.begin();
 
         try {
-
-            Child child1 = new Child();
-            Child child2 = new Child();
-
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
-
-            em.persist(parent);
+            Member member1 = new Member();
+            member1.setName("test...");
+            member1.setHomeAddress(new Address());
+            member1.getHomeAddress().setCity("test1");
+            member1.getHomeAddress().setStreet("test1");
+            member1.getHomeAddress().setZipcode("test1");
+            em.persist(member1);
 
             tx.commit();
         } catch (Exception e) {

@@ -1,6 +1,7 @@
 package helloJpa;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Member extends BaseEntity {
@@ -12,21 +13,19 @@ public class Member extends BaseEntity {
     @Column(name = "USERNAME")
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER) // 팀을 프록시로 조회한다.
-    @JoinColumn
-    private Team team;
+    @Enumerated
+    private Period workPeriod;
+    @Enumerated
+    private Address homeAddress;
 
-    public Team getTeam() {
-        return team;
-    }
+    @Enumerated
+    @AttributeOverrides({
+            @AttributeOverride(name = "city", column = @Column(name = "work_city")),
+            @AttributeOverride(name = "street", column = @Column(name = "work_street")),
+            @AttributeOverride(name = "zipcode", column = @Column(name = "work_zipcode")),
+    })
+    private Address workAddress;
 
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "LCOKER_ID")
-    private Locker locker;
 
     public Long getId() {
         return id;
@@ -42,5 +41,21 @@ public class Member extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Period getWorkPeriod() {
+        return workPeriod;
+    }
+
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
     }
 }
