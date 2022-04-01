@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class JpaMain {
 
@@ -19,14 +20,39 @@ public class JpaMain {
 
         try {
             Member member1 = new Member();
-            member1.setName("test...");
-            member1.setHomeAddress(new Address("test1", "test1", "test1"));
+            member1.setName("member1");
+            member1.setHomeAddress(new Address("homeCity", "street", "zipcode"));
+            member1.getFavoriteFoods().add("치킨");
+            member1.getFavoriteFoods().add("족발");
+            member1.getFavoriteFoods().add("피자");
+
+            member1.getAddressHistory().add(new Address("old1", "street", "zipcode"));
+            member1.getAddressHistory().add(new Address("old2", "street", "zipcode"));
+
             em.persist(member1);
 
-            Member member3 = new Member();
-            member3.setName("test...");
-            member3.setHomeAddress(new Address("test2", "test2", "test2"));
-            em.persist(member3);
+            em.flush();
+            em.clear();
+
+            System.out.println("======================================");
+
+            //조회
+            Member findMember = em.find(Member.class, member1.getId());
+            List<Address> addressHistory = findMember.getAddressHistory();
+            for (Address address : addressHistory) {
+                System.out.println("address...-==>" + address.getCity());
+            }
+
+            Address address = findMember.getHomeAddress();
+            findMember.setHomeAddress(new Address("newCity", address.getStreet(), address.getZipcode()));
+
+            //Map 수정
+            findMember.getFavoriteFoods().remove("치킨");
+            findMember.getFavoriteFoods().add("한식");
+
+            //List 수정b
+            findMember.getAddressHistory().remove(new Address("old1", "street", "zipcode"));
+            findMember.getAddressHistory().add(new Address("old1", "street", "zipcode"));
 
             tx.commit();
         } catch (Exception e) {
