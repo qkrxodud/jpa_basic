@@ -20,11 +20,13 @@ public class JpaMain {
         try {
             Member member1 = new Member();
             member1.setName("test...");
-            member1.setHomeAddress(new Address());
-            member1.getHomeAddress().setCity("test1");
-            member1.getHomeAddress().setStreet("test1");
-            member1.getHomeAddress().setZipcode("test1");
+            member1.setHomeAddress(new Address("test1", "test1", "test1"));
             em.persist(member1);
+
+            Member member3 = new Member();
+            member3.setName("test...");
+            member3.setHomeAddress(new Address("test2", "test2", "test2"));
+            em.persist(member3);
 
             tx.commit();
         } catch (Exception e) {
